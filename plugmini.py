@@ -54,7 +54,7 @@ def switchbotplugmini(address, operation):
     elif operation == "state":
         command = b"\x57\x0f\x51\x01"
     else:
-        print("ERROR, <ff/on/toggle/state>")
+        print("ERROR, <off/on/toggle/state>")
         return False, resp
 
     loop = asyncio.new_event_loop()
