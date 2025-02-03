@@ -5,9 +5,11 @@
 # https://bleak.readthedocs.io/en/latest/index.html
 # https://github.com/hbldh/bleak/issues/59
 
+import sys
 import binascii
 import asyncio
 from bleak import *
+
 
 def switchbotplugmini(address, operation):
     """! switchbotplugmini brief.
@@ -18,23 +20,25 @@ def switchbotplugmini(address, operation):
                       resp(RESP message(0x0100:Off, 0x0180:On) or 0x0000)
     """
 
-    #RX characteristic UUID of the message from the Terminal to the Device
+    # RX characteristic UUID of the message from the Terminal to the Device
     RX_CHARACTERISTIC_UUID = "cba20002-224d-11e6-9fb8-0002a5d5c51b"
-    #TX characteristic UUID of the message from the Device to the Terminal
+    # TX characteristic UUID of the message from the Device to the Terminal
     TX_CHARACTERISTIC_UUID = "cba20003-224d-11e6-9fb8-0002a5d5c51b"
-    
+
     result = True
     resp = b"\x00\x00"
 
     def callback(sender: int, data: bytearray):
-        #print(f"{sender}: {data}")
+        # print(f"{sender}: {data}")
         nonlocal resp
         resp = data
 
     async def run(loop):
         async with BleakClient(address, loop=loop) as client:
             await client.start_notify(TX_CHARACTERISTIC_UUID, callback)
-            await client.write_gatt_char(RX_CHARACTERISTIC_UUID, bytearray(command), response=True)
+            await client.write_gatt_char(
+                RX_CHARACTERISTIC_UUID, bytearray(command), response=True
+            )
             await asyncio.sleep(0.5)
             await client.stop_notify(TX_CHARACTERISTIC_UUID)
 
@@ -54,7 +58,7 @@ def switchbotplugmini(address, operation):
     try:
         asyncio.set_event_loop(loop)
         loop.run_until_complete(run(loop))
-    except:
+    except Exception:
         print(sys.exc_info())
         result = False
     finally:
@@ -62,9 +66,12 @@ def switchbotplugmini(address, operation):
         loop.close()
         return result, resp
 
+
 def main():
     if len(sys.argv) != 3:
-        print("ERROR, python switchbotplugmini.py <BLE ADDRESS> <turnoff/turnon/toggle/readstate>")
+        print(
+            "ERROR, python switchbotplugmini.py <BLE ADDRESS> <turnoff/turnon/toggle/readstate>"
+        )
         sys.exit(1)
 
     result, resp = switchbotplugmini(sys.argv[1], sys.argv[2])
@@ -74,11 +81,12 @@ def main():
         elif resp == b"\x01\x00":
             print(result, binascii.hexlify(resp), "off")
         else:
-            print(result, binascii.hexlify(resp)) 
-        sys.exit(0) #result==True, exit(0)
+            print(result, binascii.hexlify(resp))
+        sys.exit(0)  # result==True, exit(0)
     else:
         print(result, binascii.hexlify(resp))
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
