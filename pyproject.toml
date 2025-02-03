@@ -1,0 +1,9 @@
+[project]
+name = "plugmini"
+version = "0.1.0"
+description = "Scripts for Switch Bot Plug mini"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bleak>=0.22.3",
+]
