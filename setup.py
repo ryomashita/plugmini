@@ -9,14 +9,14 @@ setup(
     author="ryomashita",
     author_email="86085692+ryomashita@users.noreply.github.com",
     url="https://github.com/ryomashita/plugmini",
-    packages=find_packages(),
+    packages=["plugmini"],
     install_requires=[
         "bleak",  # BLE library for Python
         "python-dotenv",  # For loading environment variables from .env file
     ],
     entry_points={
         "console_scripts": [
-            "plugmini=plugmini:main",
+            "plugmini=plugmini.plugmini:main",
         ],
     },
     classifiers=[
