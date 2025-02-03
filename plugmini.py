@@ -5,10 +5,13 @@
 # https://bleak.readthedocs.io/en/latest/index.html
 # https://github.com/hbldh/bleak/issues/59
 
+import os
 import sys
 import binascii
 import asyncio
-from bleak import *
+from bleak import BleakClient
+from dotenv import load_dotenv
+import argparse
 
 
 def switchbotplugmini(address, operation):
@@ -42,16 +45,16 @@ def switchbotplugmini(address, operation):
             await asyncio.sleep(0.5)
             await client.stop_notify(TX_CHARACTERISTIC_UUID)
 
-    if operation == "turnoff":
+    if operation == "off":
         command = b"\x57\x0f\x50\x01\x01\x00"
-    elif operation == "turnon":
+    elif operation == "on":
         command = b"\x57\x0f\x50\x01\x01\x80"
     elif operation == "toggle":
         command = b"\x57\x0f\x50\x01\x02\x80"
-    elif operation == "readstate":
+    elif operation == "state":
         command = b"\x57\x0f\x51\x01"
     else:
-        print("ERROR, <turnoff/turnon/toggle/readstate>")
+        print("ERROR, <ff/on/toggle/state>")
         return False, resp
 
     loop = asyncio.new_event_loop()
@@ -67,14 +70,40 @@ def switchbotplugmini(address, operation):
         return result, resp
 
 
-def main():
-    if len(sys.argv) != 3:
-        print(
-            "ERROR, python switchbotplugmini.py <BLE ADDRESS> <turnoff/turnon/toggle/readstate>"
-        )
-        sys.exit(1)
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Control SwitchBot Plug Mini over BLE."
+    )
+    parser.add_argument(
+        "command",
+        choices=["off", "on", "toggle", "state"],
+        help="Command to execute",
+    )
+    parser.add_argument(
+        "address",
+        nargs="?",
+        default=os.getenv("PLUGMINI_MAC_ADDRESS"),
+        help="BLE MAC Address",
+    )
 
-    result, resp = switchbotplugmini(sys.argv[1], sys.argv[2])
+    args = parser.parse_args()
+
+    if args.address is None:
+        parser.error(
+            "MAC address must be provided as an argument or via the PLUGMINI_MAC_ADDRESS environment variable."
+        )
+
+    return args
+
+
+def main():
+    load_dotenv()
+
+    args = parse_arguments()
+    address = args.address
+    command = args.command
+
+    result, resp = switchbotplugmini(address, command)
     if result:
         if resp == b"\x01\x80":
             print(result, binascii.hexlify(resp), "on")

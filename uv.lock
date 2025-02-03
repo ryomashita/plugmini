@@ -51,10 +51,14 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "bleak" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "bleak", specifier = ">=0.22.3" }]
+requires-dist = [
+    { name = "bleak", specifier = ">=0.22.3" },
+    { name = "python-dotenv" },
+]
 
 [[package]]
 name = "pyobjc-core"
@@ -111,6 +115,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/e0/e9/8e364765ccb1f3c686d922e2512499f2b4e25bfbfa5d73e833478bff88b5/pyobjc_framework_libdispatch-10.3.2-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:6bb528f34538f35e1b79d839dbfc398dd426990e190d9301fe2d811fddc3da62", size = 15572 },
     { url = "https://files.pythonhosted.org/packages/86/cc/ff00f7d2e1774e8bbab4da59793f094bdf97c9f0d178f6ace29a89413082/pyobjc_framework_libdispatch-10.3.2-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:1357729d5fded08fbf746834ebeef27bee07d6acb991f3b8366e8f4319d882c4", size = 15576 },
     { url = "https://files.pythonhosted.org/packages/6b/27/530cd12bdc16938a85436ac5a81dccd85b35bac5e42144e623b69b052b76/pyobjc_framework_libdispatch-10.3.2-cp313-cp313t-macosx_10_13_universal2.whl", hash = "sha256:210398f9e1815ceeff49b578bf51c2d6a4a30d4c33f573da322f3d7da1add121", size = 15854 },
+]
+
+[[package]]
+name = "python-dotenv"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bc/57/e84d88dfe0aec03b7a2d4327012c1627ab5f03652216c63d49846d7a6c58/python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca", size = 39115 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6a/3e/b68c118422ec867fa7ab88444e1274aa40681c606d59ac27de5a5588f082/python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a", size = 19863 },
 ]
 
 [[package]]
