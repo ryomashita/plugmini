@@ -3,9 +3,24 @@ name = "plugmini"
 version = "0.1.0"
 description = "Scripts for Switch Bot Plug mini"
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "bleak>=0.22.3",
-    "python-dotenv",
-    "setuptools>=75.8.0",
+authors = [
+    { name = "ryomashita", email = "86085692+ryomashita@users.noreply.github.com" },
 ]
+keywords = ["switchbot", "plugmini"]
+requires-python = ">=3.11"
+dependencies = ["bleak>=0.22.3", "python-dotenv", "setuptools>=75.8.0"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/ryomashita/plugmini"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+plugmini = "plugmini.plugmini:main"
