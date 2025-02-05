@@ -27,22 +27,21 @@ class SwitchBotPlugMini:
         "toggle": b"\x57\x0f\x50\x01\x02\x80",
         "state": b"\x57\x0f\x51\x01",
     }
+    # NOTE: The response format is same regardless of the command.
+    RESPONSES = {
+        b"\x01\x80": "On",
+        b"\x01\x00": "Off",
+    }
 
     @classmethod
     def generate_command(cls, operation: str) -> bytes:
         """操作に応じたコマンドを取得"""
         return cls.COMMANDS.get(operation, None)
 
-    @staticmethod
-    def parse_response(response: bytes) -> str:
-        """応答データを解析
-        NOTE: The response format is same regardless of the command.
-        """
-        if response == b"\x01\x00":
-            return "Off"
-        elif response == b"\x01\x80":
-            return "On"
-        return "Unknown"
+    @classmethod
+    def parse_response(cls, response: bytes) -> str:
+        """応答データを解析"""
+        return cls.RESPONSES.get(response, "Unknown")
 
     @classmethod
     async def send_command(cls, address: str, command: bytes) -> bytes:
