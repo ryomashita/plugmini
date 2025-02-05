@@ -1,1 +1,3 @@
-from plugmini.plugmini import *
+from .plugmini_ble import SwitchBotPlugMini
+
+__all__ = ["SwitchBotPlugMini"]

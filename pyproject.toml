@@ -23,4 +23,4 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-plugmini = "plugmini.plugmini:main"
+plugmini = "plugmini.main:main"
